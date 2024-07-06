@@ -1,5 +1,5 @@
 const gameboard = (function(){
-    let board = new Array(10);
+    let board = new Array(9);
     let winPossibilities = [
         [0, 1, 2],
         [3, 4, 5],
@@ -21,29 +21,11 @@ const gameboard = (function(){
     }
 
     const check = () => {
-        for (let i = 0; i < winPossibilities.length; i++) {
-            const possibility = winPossibilities[i];
-            let dot = 0;
-            let marker = "";
-    
-            for (let j = 0; j < possibility.length; j++) {
-                const number = possibility[j];
-    
-                if (!board[number]) {
-                    break;
-                }
-    
-                if (!marker) {
-                    marker = board[number];
-                }
-    
-                if (board[number] === marker) {
-                    dot++;
-                }
-            }
-    
-            if (dot === 3) {
-                return { status: true, marker }; 
+        for(const possibility of winPossibilities){
+            let [a, b, c] = possibility;
+
+            if(board[a] && board[a] == board[b] && board[a] == board[c]){
+                return { status: true, marker:board[a]}
             }
         }
     
@@ -67,81 +49,56 @@ function createPlayer(name, marker){
 }
 
 const game = (function(){
-    const chooseMarker = (secondMarker) => {
-        if(secondMarker){
-            return secondMarker = "X" ? "O" : "X"; 
+    const chooseMarker = (existingMarker = null) => {
+        if(existingMarker){
+            return existingMarker = "X" ? "O" : "X"; 
         }
 
-        let marker = prompt("Choose a marker X or O");
-        
-        if(marker != "X" && marker != "O"){
-            chooseMarker();
-        }
+        let marker;
+
+        do {
+            marker = prompt("Choose a marker X or O");
+        } while(marker !== "X" && marker !== "O");
 
         return marker;
     }
 
-    const chooseName = (secondPlayer) => {
-        return prompt(`The ${secondPlayer ? 'second' : 'first'} player should write his name:`);
+    const chooseName = (existingPlayer = null) => {
+        return prompt(`The ${existingPlayer ? 'second' : 'first'} player should write his name:`);
     }
 
-    const chooseSide = (secondPlayer) => {
-        let marker = secondPlayer ? chooseMarker(true): chooseMarker();
-        let name = chooseName(secondPlayer);
-
-        return createPlayer(name, marker);
+    const chooseSide = (isSecondPlayer = null) => {        
+        return createPlayer(chooseName(isSecondPlayer), chooseMarker(isSecondPlayer));
     };
 
-    const playRound = () => {
-        const turn = (player) => {
-            let position = parseInt(prompt(player.getName()  + " choose a square"));
+    const playRound = (player) => {
+        let position;
+        do {
+            position = parseInt(prompt(player.getName()  + " choose a square"));
 
-            let statement = gameboard.save(player.getMarker(), position);
+        } while(!gameboard.save(player.getMarker(), position));
 
-            if(!statement){
-                alert("This square is already taken !");
-                turn(player);
-            }
-
-            let gameboardStatus = gameboard.check();
-            if(gameboardStatus?.status){
-                return gameboardStatus;
-            }
-        }
-
-        return { turn };        
+        return gameboard.check();
     }
 
     const start = () => {
         
         let firstPlayer = chooseSide(false);
         let secondPlayer = chooseSide(true);
-
-        let round = playRound();
-        let nextTurn = "firstPlayer";
-        let roundStatus = false, turn = 0;
-        let playerVictory;
         
-        do {
-            if(nextTurn == "firstPlayer"){
-                roundStatus = round.turn(firstPlayer);
-                nextTurn = "secondPlayer";
-            } else {
-                roundStatus = round.turn(secondPlayer);
-                nextTurn = "firstPlayer";
-            }
-        } while (!roundStatus && turn <= 9);
+        let roundStatus, currentPlayer = firstPlayer;
 
-        if(roundStatus.marker == "X"){
-            playerVictory = firstPlayer.getMarker() == roundStatus.marker ? firstPlayer : secondPlayer;
-            console.log(playerVictory.getName() + " won")
-        } else if (roundStatus.marker == "O") {
-            playerVictory = firstPlayer.getMarker() == roundStatus.marker ? firstPlayer : secondPlayer;
-            console.log(playerVictory.getName() + " won")
-        } else {
-            console.log("It's a draw")
+        for(let turn = 0; turn < 9; turn++){
+            roundStatus = playRound(currentPlayer);
+            if(roundStatus){
+                console.log(`${currentPlayer.getName()} has won`);
+                return;
+            }
+
+            currentPlayer = currentPlayer === firstPlayer ? secondPlayer : firstPlayer;
         }
 
+        return console.log("It's a draw");
     };
 
     return {start};
