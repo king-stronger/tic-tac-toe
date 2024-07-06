@@ -1,0 +1,58 @@
+:root {
+    --flow: 1em;
+
+    --grid-gap: 0;
+    --grid-repeat: 1;
+    --grid-content-size: 1fr;
+
+    --flex-gap: 0;
+    --flex-align: center;
+    --flex-direction: row;
+    --flex-justify: space-between;
+}
+
+/********************** RESET CSS **********************/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100dvh;
+}
+
+p {
+    max-width: 65ch;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+input, textarea, select, button {
+    font: inherit;
+}
+
+img, video, svg, picture, canvas {
+    display: block;
+    max-width: 100%;
+}
+/********************** RESET CSS **********************/
