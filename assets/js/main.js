@@ -198,7 +198,8 @@ squareButtons.forEach(square => {
 
         if(square.textContent == "X"){
             square.classList.add("x-button");
-            console.log(square.textContent)
+        } else {
+            square.classList.remove("x-button");
         }
     });
 });
