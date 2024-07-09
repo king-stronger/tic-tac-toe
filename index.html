@@ -4,8 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+    <main class="game">
+        <section class="players">
+            <div class="first-player"></div>
+            <div class="score-separator">-</div>
+            <div class="second-player"></div>
+        </section>
+    
+        <section class="board">
+            <button data-square="0"></button>
+            <button data-square="1"></button>
+            <button data-square="2"></button>
+            <button data-square="3"></button>
+            <button data-square="4"></button>
+            <button data-square="5"></button>
+            <button data-square="6"></button>
+            <button data-square="7"></button>
+            <button data-square="8"></button>
+        </section>
+
+        <section class="comments">
+            <p></p>
+        </section>
+    
+        <section class="operations">
+            <button class="start">Start</button>
+            <button class="replay">Replay</button>
+        </section>
+    </main>
 
     <script src="assets/js/main.js"></script>
 </body>
