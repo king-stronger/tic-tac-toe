@@ -76,6 +76,6 @@ No live demo is currently available, but you can run the game locally by followi
 
 ## License
 
-This project does not currently have a license. Unless explicitly granted by the author, the code is not available for public use, modification, or distribution. If you wish to use it, please contact the author
+This project is not licensed. If you wish to reuse or modify it, you are free to do so, but please give proper credit.
 
 ---
